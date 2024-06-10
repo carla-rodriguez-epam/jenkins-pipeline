@@ -36,11 +36,11 @@ pipeline {
             steps {
                 script {
                     if (env.BRANCH_NAME == 'main') {
-                        sh 'sed -i "s/port: 3001/port: 3000/" config.js'
-                        sh 'cp /src/logo.svc ./'
+                        withEnv(['PORT=3000']) {
+                        sh 'cp /src/logo.svg ./'
                         docker.image('node').run('-d -p 3000:3000')
                     } else if (env.BRANCH_NAME == 'dev') {
-                        sh 'sed -i "s/port: 3000/port: 3001/" config.js'
+                        withEnv(['PORT=3001']) {
                         sh 'cp /path/to/new/logo.svg ./'
                         docker.image('node').run('-d -p 3001:3001')
                     }
