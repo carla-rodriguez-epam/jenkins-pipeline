@@ -5,8 +5,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout code from Git
-                git 'https://github.com/carla-rodriguez-epam/jenkins-pipeline.git'
-            }
+                git branch: "${env.BRANCH_NAME}", url: 'https://github.com/carla-rodriguez-epam/jenkins-pipeline.git'            }
         }
 
         stage('Build') {
