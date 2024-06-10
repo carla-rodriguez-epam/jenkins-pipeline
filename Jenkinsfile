@@ -27,7 +27,11 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build('node')
+                    if (env.BRANCH_NAME == 'main') {
+                        docker.build('nodemain:v1.0')
+                    } else if (env.BRANCH_NAME == 'dev') {
+                        docker.build('nodedev:v1.0')
+                    }
                 }
             }
         }
@@ -36,13 +40,9 @@ pipeline {
             steps {
                 script {
                     if (env.BRANCH_NAME == 'main') {
-                        withEnv(['PORT=3000'])
-                        sh 'cp /src/logo.svg ./'
-                        docker.image('node').run('-d -p 3000:3000')
-                    } else if (env.BRANCH_NAME == 'dev')
-                        withEnv(['PORT=3001']) {
-                        sh 'cp /path/to/new/logo.svg ./'
-                        docker.image('node').run('-d -p 3001:3001')
+                        docker.image('nodemain:v1.0').run('-d -p 3000:3000')
+                    } else if (env.BRANCH_NAME == 'dev') {
+                        docker.image('nodedev:v1.0').run('-d -p 3001:3001')
                     }
                 }
             }
