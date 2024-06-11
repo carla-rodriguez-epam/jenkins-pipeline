@@ -42,7 +42,7 @@ pipeline {
                     if (env.BRANCH_NAME == 'main') {
                         docker.image('nodemain:v1.0').run('-d -p 3000:3000')
                     } else if (env.BRANCH_NAME == 'dev') {
-                        docker.image('nodedev:v1.0').run('-d -p 3001:3001')
+                        docker.image('nodedev:v1.0').run('-d -p 3001:3000')
                     }
                 }
             }
